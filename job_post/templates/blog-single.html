@@ -1,0 +1,167 @@
+{%extends 'base.html'%}
+{%block title %}
+<title>{{blog.title}}</title>
+{%endblock%}
+
+
+{%block content %}
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <ol>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'blog' %}">Careers</a></li>
+        </ol>
+        <h2>Job Single</h2>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Blog Single Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+        
+
+          <div class="col-lg-6 entries">
+
+            <article class="entry entry-single">
+
+              <div class="entry-img">
+                <img src="{{blog.blog.img}}" alt="" class="img-fluid">
+              </div>
+
+              <h2 class="entry-title">
+                <a href="{% url 'blog_single' pk=blog.pk %}">{{blog.title}}</a>
+              </h2>
+
+              <div class="entry-meta">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">{{blog.author}}</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">{{blog.created_on}}</time></a></li>
+                  
+                </ul>
+              </div>
+
+              <div class="entry-content">
+                {{blog.content|safe}}
+              </div>
+
+
+            </article><!-- End blog entry -->
+
+    
+          </div>
+
+          <!-- Form -->
+          <div class="col-lg-6 entries ">
+      
+            <div class="card entry entry-single">
+            {%if context.show_msg %}
+              <div class="row align-items-center py-3">
+                  <h6 class="col-md-12 ps-5" >{{context.msg}}</h6>
+              </div>
+            {%else%}
+                <h2 class="entry-title" >Apply for a job</h2>
+        
+               
+              <form enctype="multipart/form-data" method="post" id="form_data">
+                {% csrf_token %}
+                <div class="card-body">
+                  
+                  <div class="row align-items-center pt-4 pb-3">
+                    <div class="col-md-3 ps-5">
+
+                      <h6 class="mb-0">Full name</h6>
+
+                    </div>
+                    <div class="col-md-9 pe-5">
+
+                      <input type="text" class="form-control form-control-lg" name="full_name" required/>
+
+                    </div>
+                  </div>
+
+                  <hr class="mx-n3">
+                
+                  <div class="row align-items-center py-3">
+                    <div class="col-md-3 ps-5">
+
+                      <h6 class="mb-0">Email address</h6>
+
+                    </div>
+                    <div class="col-md-9 row ">
+
+                        <div class="col-md-9">
+                          <input type="email" class="form-control form-control-lg" name="email" id="email" placeholder="example@example.com" required  />
+                        </div>
+                        <!-- <div class="col-md-3">
+                          <input type="submit" value="Verify" class="btn btn-primary btn-lg">
+                        </div> -->
+                    </div>
+                  </div>
+
+                  <hr class="mx-n3">
+                  
+                  <div class="row align-items-center py-3">
+                    <div class="col-md-3 ps-5">
+
+                      <h6 class="mb-0">Message</h6>
+
+                    </div>
+                    <div class="col-md-9 pe-5">
+
+                      <textarea class="form-control" rows="3" placeholder="Message sent to the employer" name="message"></textarea>
+
+                    </div>
+                  </div>
+
+                  <hr class="mx-n3">
+
+                  <div class="row align-items-center py-3">
+                    <div class="col-md-3 ps-5">
+
+                      <h6 class="mb-0">Upload CV</h6>
+
+                    </div>
+                    <div class="col-md-9 pe-5">
+
+                      <input class="form-control form-control-lg" id="file_field" type="file" name="resume" required/>
+                      <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                        size 50 MB</div>
+
+                    </div>
+                  </div>
+
+                  <hr class="mx-n3">
+
+                  <div class="px-5 py-4 justify-content-center align-items-center">
+                    <button type="submit" onclick=" VerifyUploadSizeIsOK()" class="btn btn-primary btn-lg">Send application</button>
+                  </div>
+
+                 
+                    
+                </div>
+            </form>
+            {%endif%}
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
+
+
+
+  
+
+      
+   
+        
+  
+    </section>
+
+{%endblock%}
+
+

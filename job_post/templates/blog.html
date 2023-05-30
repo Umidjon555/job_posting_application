@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title%}
+
+
+<title>Careers</title>
+{%endblock%}
+
+{%block content %}
+<section class="breadcrumbs">
+  <div class="container">
+
+    <ol>
+      <li><a href="{% url 'blog' %}">Home</a></li>
+      <li>Careers</li>
+    </ol>
+    
+
+  </div>
+</section><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section id="blog" class="blog">
+  <div class="container" data-aos="fade-up">
+
+    <div class="row">
+
+      <div class="col-lg-8 entries">
+        {%for blog in blogs %}
+        <article class="entry">
+
+          <h2 class="entry-title">
+            <a href="{% url 'blog_single' pk=blog.pk %}">{{blog.title}}</a>
+          </h2>
+
+          <div class="entry-meta">
+            <ul>
+              <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="{% url 'blog_single' pk=blog.pk %}">{{blog.author}}</a></li>
+              <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="{% url 'blog_single' pk=blog.pk %}"><time datetime="2020-01-01">{{blog.created_on}}</time></a></li>
+    
+            </ul>
+          </div>
+
+          <div class="entry-content">
+            <p>{{ blog.content|safe|truncatechars:200 }}</p>
+            <div class="read-more">
+              <a href="{% url 'blog_single' pk=blog.pk %}">Read More</a>
+            </div>
+          </div>
+
+        </article><!-- End blog entry -->
+
+       {% endfor %}
+
+     
+
+
+        <div class="blog-pagination">
+          <ul class="justify-content-center">
+          {% if blogs.has_previous %}
+            <li><a href="?page={{ blogs.previous_page_number }}">« Prev</a></li>
+            {% if blogs.number > 3 %}
+              <li><a href="?page=1">1</a></li>
+              {% if blogs.number > 4 %}
+                <span>...</span>
+              {% endif %}
+            {% endif %}
+         
+          {% endif %}
+          
+          {% for num in blogs.paginator.page_range %}
+       
+            {% if blogs.number == num %}
+              <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num > blogs.number|add:'-3' and num < blogs.number|add:'3' %}
+              <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+          
+          {% endfor %}
+
+          {% if blogs.has_next %}
+            {% if blogs.number < blogs.paginator.num_pages|add:'-3' %}
+              <span>...</span>
+              <li><a href="?page={{ blogs.paginator.num_pages }}">{{ blogs.paginator.num_pages }}</a></li>
+            {% elif blogs.number < blogs.paginator.num_pages|add:'-2' %}
+              <li><a href="?page={{ blogs.paginator.num_pages }}">{{ blogs.paginator.num_pages }}</a></li>
+            {% endif %}
+
+            <li><a href="?page={{ blogs.next_page_number }}">Next»</a></li>
+          {% endif %}
+        </ul>
+        </div>
+
+      </div><!-- End blog entries list -->
+
+      <div class="col-lg-4">
+
+        <div class="sidebar">
+
+          <h3 class="sidebar-title">Search</h3>
+          <div class="sidebar-item search-form">
+            <form method="get">
+              <input type="text"  name="q" placeholder="Search..." >
+                  <button type="submit" class="ml-5"><i class="bi bi-search"></i>Search</button>
+            </form>
+            
+          </div><!-- End sidebar search formn-->
+
+          <h3 class="sidebar-title">Categories</h3>
+          <div class="sidebar-item categories">
+            <ul>
+              {%for category in categories%}
+              <li><a href="?c={{category}}">{{category}} <span>{{category.count}}</span></a></li>
+              {%endfor%}
+            </ul>
+          </div><!-- End sidebar categories-->
+
+          <!-- End sidebar recent posts-->
+
+          <h3 class="sidebar-title">Tags</h3>
+          <div class="sidebar-item tags">
+            
+            <ul>
+              {%for tag in tags%}
+              <li><a href="?q={{tag}}">{{tag}}</a></li>
+              {%endfor%}
+            </ul>
+            
+          </div><!-- End sidebar tags-->
+
+        </div><!-- End sidebar -->
+
+      </div><!-- End blog sidebar -->
+
+    </div>
+
+  </div>
+</section>
+{%endblock%}
